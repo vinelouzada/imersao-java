@@ -1,70 +1,37 @@
 import java.io.InputStream;
-import java.net.URI;
 import java.net.URL;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.net.http.HttpResponse.BodyHandlers;
 import java.util.List;
-import java.util.Map;
 
 public class App {
     public static void main(String[] args) throws Exception {
+
         //fazer uma conexão HTTP
-        String url = "https://imdb-api.com/en/API/Top250Movies/k_0ysnlc3t";
+        String url1 = "https://imdb-api.com/en/API/Top250Movies/k_0ysnlc3t";
         String url2 = "https://imdb-api.com/en/API/MostPopularMovies/k_0ysnlc3t";
-        
-        URI endereco = URI.create(url2);
+        String url3 = "https://api.nasa.gov/planetary/apod?api_key=mG9S1uoK2Mf00BZktadFdhUfNBwBakupkevUqwBl&start_date=2022-06-12&end_date=2022-06-14";
 
-        var client = HttpClient.newHttpClient();
+        new ClienteHttp();
+        String json = ClienteHttp.buscaDados(url1);
 
-        HttpRequest request = HttpRequest.newBuilder(endereco).GET().build();
 
-        HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
-        String body = response.body();
 
-    
-        //extrair só os dados que interessam (título, poster, classificação)
-        var parser = new JsonParser();
-        List<Map<String, String>> listaDeFilmes = parser.parse(body);
+        ExtratorDeConteudoIMDB extrator = new ExtratorDeConteudoIMDB();
+        //ExtratorDeConteudoDaNasa extrator = new ExtratorDeConteudoDaNasa();
+        List<Conteudo> conteudos = extrator.extraiConteudos(json);
+        //extrator.mostraClassificacaoFilme(conteudos);
 
-        //exibir e manipular os dados
-        /* 
-        for (Map<String,String> filme : listaDeFilmes) {
-            String nomeFilme = filme.get("title");
-            String imgFilme = filme.get("image");
-            String classificacaoFilme = filme.get("imDbRating");
-            
-            System.out.println("------------------------");
-            System.out.println("Título: \u001b[1m" + nomeFilme + "\u001b[0m");
-            System.out.println("Poster: \u001b[1m " + imgFilme + "\u001b[0m");
-
-            String notaFilme = (classificacaoFilme.isEmpty()) ? Integer.toString(0) : classificacaoFilme;
-
-            System.out.println("\u001b[33m \u001b[45m Classificação: \u001b[1m " + (notaFilme) + "\u001b[0m");
-            
-            int numEstrelasFilme = Math.round(Float.parseFloat(notaFilme));
-            String estrelasFilme = "";
-
-            for (int i = 0; i < numEstrelasFilme; i++) {
-                estrelasFilme += "⭐";
-            }
-            
-            System.out.println(estrelasFilme);
-        }*/
         var geradora = new GeradoraDeFigurinhas();
         
-        for (int i = 0; i < 5; i++) {
-            Map<String,String> filme = listaDeFilmes.get(i);
+        for (int i = 0; i < conteudos.size(); i++) {
 
-            String urlImagem = filme.get("image").replaceAll("(@+)(.*).jpg$", "$1.jpg");
-            String nomeFilme = filme.get("title");
+            Conteudo conteudo = conteudos.get(i);
             //deve-se mudar o caractere : pois no windows não é permitido ':' esse caractere no título
-            String nomeArquivo = nomeFilme.replace(":", "-")  + ".png";
+            String nomeArquivo = conteudo.getTitulo().replace(":", "-")  + ".png";
 
-            InputStream inputStream = new URL(urlImagem).openStream();
+            InputStream inputStream = new URL(conteudo.getUrlImagem()).openStream();
 
-            System.out.println("Gerando imagem - [" + nomeFilme + "]");
+            System.out.println("Gerando imagem - [" + conteudo.getTitulo() + "]");
+
             geradora.cria(inputStream, nomeArquivo);
         }
 
