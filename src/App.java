@@ -1,4 +1,6 @@
+import java.io.InputStream;
 import java.net.URI;
+import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -27,7 +29,7 @@ public class App {
         List<Map<String, String>> listaDeFilmes = parser.parse(body);
 
         //exibir e manipular os dados
-        
+        /* 
         for (Map<String,String> filme : listaDeFilmes) {
             String nomeFilme = filme.get("title");
             String imgFilme = filme.get("image");
@@ -49,6 +51,23 @@ public class App {
             }
             
             System.out.println(estrelasFilme);
+        }*/
+        var geradora = new GeradoraDeFigurinhas();
+        
+        for (int i = 0; i < 5; i++) {
+            Map<String,String> filme = listaDeFilmes.get(i);
+
+            String urlImagem = filme.get("image").replaceAll("(@+)(.*).jpg$", "$1.jpg");
+            String nomeFilme = filme.get("title");
+            //deve-se mudar o caractere : pois no windows não é permitido ':' esse caractere no título
+            String nomeArquivo = nomeFilme.replace(":", "-")  + ".png";
+
+            InputStream inputStream = new URL(urlImagem).openStream();
+
+            System.out.println("Gerando imagem - [" + nomeFilme + "]");
+            geradora.cria(inputStream, nomeArquivo);
         }
+
+        System.out.println("Imagens concluídas!");
     }
 }
