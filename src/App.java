@@ -19,11 +19,10 @@ public class App {
 
         //fazer uma conexão HTTP
         String url = "https://imdb-api.com/en/API/Top250Movies/" + properties.getProperty("chave.imdb");
-        String url2 = "https://imdb-api.com/en/API/MostPopularMovies/" + properties.getProperty("chave.imdb");
+        //String url2 = "https://imdb-api.com/en/API/MostPopularMovies/" + properties.getProperty("chave.imdb");
         //temporária https://mocki.io/v1/9a7c1ca9-29b4-4eb3-8306-1adb9d159060
         
         URI endereco = URI.create(url);
-
         var client = HttpClient.newHttpClient();
 
         HttpRequest request = HttpRequest.newBuilder(endereco).GET().build();
