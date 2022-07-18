@@ -1,3 +1,4 @@
+import java.io.FileInputStream;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -5,12 +6,19 @@ import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 public class App {
     public static void main(String[] args) throws Exception {
+
+        Properties properties = new Properties();
+        FileInputStream file = new FileInputStream("../properties/conf.properties");
+        properties.load(file);
+
+
         //fazer uma conexão HTTP
-        String url = "https://imdb-api.com/en/API/Top250Movies/k_0ysnlc3t";
-        String url2 = "https://imdb-api.com/en/API/MostPopularMovies/k_0ysnlc3t";
+        String url = "https://imdb-api.com/en/API/Top250Movies/" + properties.getProperty("chave.imdb");
+        String url2 = "https://imdb-api.com/en/API/MostPopularMovies/" + properties.getProperty("chave.imdb");
         
         URI endereco = URI.create(url2);
 
