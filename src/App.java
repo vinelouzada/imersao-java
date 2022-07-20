@@ -14,7 +14,8 @@ public class App {
 
         //fazer uma conexão HTTP
         //fazer uma conexão HTTP
-        String url1 = "https://imdb-api.com/en/API/Top250Movies/" + properties.getProperty("chave.imdb");
+        //String url1 = "https://imdb-api.com/en/API/Top250Movies/" + properties.getProperty("chave.imdb");
+        //String url1 = "https://raw.githubusercontent.com/alura-cursos/imersao-java/api/TopMovies.json";
         //String url2 = "https://imdb-api.com/en/API/MostPopularMovies/" + properties.getProperty("chave.imdb");
         String url3 = "https://api.nasa.gov/planetary/apod?api_key=mG9S1uoK2Mf00BZktadFdhUfNBwBakupkevUqwBl&start_date=2022-06-12&end_date=2022-06-14";
 
@@ -34,11 +35,11 @@ public class App {
 
             Conteudo conteudo = conteudos.get(i);
             //deve-se mudar o caractere : pois no windows não é permitido ':' esse caractere no título
-            String nomeArquivo = conteudo.getTitulo().replace(":", "-")  + ".png";
+            String nomeArquivo = conteudo.titulo().replace(":", "-")  + ".png";
 
-            InputStream inputStream = new URL(conteudo.getUrlImagem()).openStream();
+            InputStream inputStream = new URL(conteudo.urlImagem()).openStream();
 
-            System.out.println("Gerando imagem - [" + conteudo.getTitulo() + "]");
+            System.out.println("Gerando imagem - [" + conteudo.titulo() + "]");
 
             geradora.cria(inputStream, nomeArquivo);
         }

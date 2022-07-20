@@ -17,9 +17,8 @@ public class ExtratorDeConteudoIMDB implements ExtratorDeConteudo{
             String urlImagem = atributos.get("image").replaceAll("(@+)(.*).jpg$", "$1.jpg");
             String classificacaoFilme = atributos.get("imDbRating");
 
-            var conteudo = new Conteudo(titulo, urlImagem);
-        
-            conteudo.setClassificacaoImdb(classificacaoFilme);
+            var conteudo = new Conteudo(titulo, urlImagem, classificacaoFilme);
+
             conteudos.add(conteudo);
         }
 
@@ -29,9 +28,9 @@ public class ExtratorDeConteudoIMDB implements ExtratorDeConteudo{
     public void mostraClassificacaoFilme(List<Conteudo> conteudos){
         for (int i = 0; i < conteudos.size(); i++) {
             Conteudo conteudo = conteudos.get(i);
-            String nomeFilme = conteudo.getTitulo();
-            String imgFilme = conteudo.getUrlImagem();
-            String classificacaoFilme = conteudo.getClassificacaoImdb();
+            String nomeFilme = conteudo.titulo();
+            String imgFilme = conteudo.urlImagem();
+            String classificacaoFilme = conteudo.classificacaoImdb();
             
             System.out.println("------------------------");
             System.out.println("Título: \u001b[1m" + nomeFilme + "\u001b[0m");

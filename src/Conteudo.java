@@ -1,27 +1,8 @@
-public class Conteudo {
-    private final String titulo;
-    private final String urlImagem;
-    private String classificacaoImdb;
+public record Conteudo(String titulo, String urlImagem, String classificacaoImdb) {
 
-    public Conteudo(String titulo, String urlImagem) {
-        this.titulo = titulo;
-        this.urlImagem = urlImagem;
-    }
 
-    public String getTitulo() {
-        return titulo;
+    public Conteudo(String titulo, String urlImagem){
+        this(titulo, urlImagem, "0");
     }
-    public String getUrlImagem() {
-        return urlImagem;
-    }
-
-    public void setClassificacaoImdb(String classificacaoImdb) {
-        this.classificacaoImdb = classificacaoImdb;
-    }
-
-    public String getClassificacaoImdb() {
-        return classificacaoImdb;
-    }
-    
 
 }
