@@ -19,13 +19,13 @@ public class LinguagemController {
         new Linguagem("PHP", "https://raw.githubusercontent.com/abrahamcalf/programming-languages-logos/master/src/php/php_256x256.png", 2)
     );
 */
-    @GetMapping("/linguagens")
+    @GetMapping("/linguagem")
     public List<Linguagem> obterLinguagens(){
         List<Linguagem> linguagens = repositorio.findAll();
         return linguagens;
     }
 
-    @PostMapping("/linguagens")
+    @PostMapping("/linguagem")
     public Linguagem cadastrarLinguagem(@RequestBody Linguagem linguagem){
         Linguagem linguagemSalva = repositorio.save(linguagem);
         return linguagemSalva;
